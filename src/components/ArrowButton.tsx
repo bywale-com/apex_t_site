@@ -1,4 +1,5 @@
-﻿import { MouseEventHandler } from "react";
+import { motion } from "framer-motion";
+import { MouseEventHandler } from "react";
 
 export interface ArrowButtonProps {
   label: string;
@@ -8,6 +9,16 @@ export interface ArrowButtonProps {
   size?: "sm" | "md" | "lg";
   prefix?: string;
 }
+
+const parentVariants = {
+  rest: { scale: 1 },
+  hover: { scale: 1.02 },
+} as const;
+
+const iconVariants = {
+  rest: { x: 0, y: 0 },
+  hover: { x: 2, y: -2 },
+} as const;
 
 export function ArrowButton({
   label,
@@ -24,23 +35,46 @@ export function ArrowButton({
         {prefix ? `${prefix} ` : ""}
         {label}
       </span>
-      <span className="arrow-btn-icon" aria-hidden="true">
+      <motion.span
+        className="arrow-btn-icon"
+        aria-hidden
+        variants={iconVariants}
+        transition={{ duration: 0.2 }}
+      >
         ↗
-      </span>
+      </motion.span>
     </>
   );
 
   if (href) {
     return (
-      <a href={href} className={className} onClick={onClick}>
+      <motion.a
+        href={href}
+        className={className}
+        onClick={onClick}
+        variants={parentVariants}
+        initial="rest"
+        whileHover="hover"
+        whileTap={{ scale: 0.97 }}
+        transition={{ duration: 0.2 }}
+      >
         {content}
-      </a>
+      </motion.a>
     );
   }
 
   return (
-    <button type="button" className={className} onClick={onClick}>
+    <motion.button
+      type="button"
+      className={className}
+      onClick={onClick}
+      variants={parentVariants}
+      initial="rest"
+      whileHover="hover"
+      whileTap={{ scale: 0.97 }}
+      transition={{ duration: 0.2 }}
+    >
       {content}
-    </button>
+    </motion.button>
   );
 }

@@ -1,4 +1,5 @@
-﻿import { ArrowButton } from "./ArrowButton";
+import { ArrowButton } from "./ArrowButton";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -37,26 +38,26 @@ export default function Footer() {
 
         <div>
           <p className="footer-label">NAVIGATION</p>
-          <a href="/">Home</a>
-          <a href="/products/tower">Products</a>
-          <a href="/">Solutions</a>
-          <a href="/">Case Studies</a>
+          <Link to="/">Home</Link>
+          <Link to="/products/tower">Products</Link>
+          <Link to="/products/tower">Solutions</Link>
+          <Link to="/about">Case Studies</Link>
         </div>
 
         <div>
           <p className="footer-label">COMPANY</p>
-          <a href="/about">Company</a>
-          <a href="/">Careers</a>
-          <a href="/contact">Contact</a>
-          <a href="/">News</a>
+          <Link to="/about">Company</Link>
+          <Link to="/contact">Careers</Link>
+          <Link to="/contact">Contact</Link>
+          <Link to="/">News</Link>
         </div>
 
         <div>
           <p className="footer-label">LEGAL</p>
-          <a href="/">Terms of Service</a>
-          <a href="/">Privacy Policy</a>
-          <a href="/">Responsible AI</a>
-          <a href="/">Legal</a>
+          <Link to="/contact">Terms of Service</Link>
+          <Link to="/contact">Privacy Policy</Link>
+          <Link to="/contact">Responsible AI</Link>
+          <Link to="/contact">Legal</Link>
         </div>
       </div>
     </footer>
