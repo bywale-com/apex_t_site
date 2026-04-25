@@ -1,4 +1,4 @@
-﻿@import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap");
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,6 +35,10 @@
 * { box-sizing: border-box; margin: 0; padding: 0; border-radius: 0 !important; }
 html { scroll-behavior: smooth; }
 body { font-family: var(--font-primary); background: var(--color-white); color: var(--color-black); -webkit-font-smoothing: antialiased; }
+html,
+body {
+  overflow-x: hidden;
+}
 a { color: inherit; text-decoration: none; }
 
 .navbar { position: fixed; top: 0; left: 0; width: 100%; height: 56px; z-index: 100; }
@@ -50,7 +54,8 @@ a { color: inherit; text-decoration: none; }
 .page-tag {
   position: absolute;
   top: 0;
-  right: -18px;
+  right: 0;
+  transform: translateX(18px);
   background: #fff;
   color: #000;
   z-index: 5;
@@ -63,6 +68,7 @@ a { color: inherit; text-decoration: none; }
   font-size: 14px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  pointer-events: none;
 }
 
 .mobile-bottom-nav { display: none; }
