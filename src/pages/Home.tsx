@@ -23,6 +23,7 @@ const CARD_COUNT = 5;
 
 export default function Home() {
   const [activeCard, setActiveCard] = useState(0);
+  const stripRef = useRef<HTMLDivElement | null>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const setCardRef = useCallback(
     (el: HTMLDivElement | null, i: number) => {
@@ -33,7 +34,11 @@ export default function Home() {
 
   const scrollToActive = useCallback((index: number) => {
     const el = cardRefs.current[index];
-    el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    const strip = stripRef.current;
+    if (!el || !strip) return;
+
+    const targetLeft = el.offsetLeft - (strip.clientWidth - el.clientWidth) / 2;
+    strip.scrollTo({ left: Math.max(0, targetLeft), behavior: "smooth" });
   }, []);
 
   useEffect(() => {
@@ -175,7 +180,7 @@ export default function Home() {
             Our Software
           </motion.span>
           <div className="software-strip-block">
-            <div className="software-strip" role="list">
+            <div ref={stripRef} className="software-strip" role="list">
               <motion.div
                 className="software-strip-inner"
                 variants={staggerContainer}
