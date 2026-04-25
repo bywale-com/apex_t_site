@@ -1,6 +1,6 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
-import About from "./pages/About";
+import Company from "./pages/Company";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
 import Tower from "./pages/Tower";
@@ -11,9 +11,14 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/company" element={<Company />} />
+        <Route path="/about" element={<Navigate to="/company" replace />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/products/tower" element={<Tower />} />
+        <Route path="/solutions" element={<Home />} />
+        <Route path="/case-studies" element={<Company />} />
+        <Route path="/news" element={<Home />} />
+        <Route path="/legal" element={<Contact />} />
       </Routes>
     </BrowserRouter>
   );

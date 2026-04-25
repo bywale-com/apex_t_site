@@ -39,14 +39,14 @@ export default function Footer() {
         <div>
           <p className="footer-label">NAVIGATION</p>
           <Link to="/">Home</Link>
-          <Link to="/products/tower">Products</Link>
+          <Link to="/products/tower">Tower</Link>
           <Link to="/products/tower">Solutions</Link>
-          <Link to="/about">Case Studies</Link>
+          <Link to="/company">Case Studies</Link>
         </div>
 
         <div>
           <p className="footer-label">COMPANY</p>
-          <Link to="/about">Company</Link>
+          <Link to="/company">Company</Link>
           <Link to="/contact">Careers</Link>
           <Link to="/contact">Contact</Link>
           <Link to="/">News</Link>

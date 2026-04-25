@@ -105,7 +105,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="pain-points">
+        <section className="pain-points section">
           <div className="pain-layout">
             <div className="pain-chip chip-1">
               <motion.div
@@ -156,7 +156,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="our-software">
+        <section className="our-software section">
           <motion.div
             className="software-top"
             variants={fadeUp}
@@ -253,7 +253,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="social-proof-home">
+        <section className="social-proof-home section">
           <div className="social-top">
             <motion.h2
               variants={fadeUp}
@@ -296,7 +296,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        <section className="insights-home">
+        <section className="insights-home section">
           <div className="insights-top">
             <motion.div
               variants={staggerContainer}

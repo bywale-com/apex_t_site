@@ -15,12 +15,12 @@ import {
 
 const PEOPLE_TITLE = ["The", "people", "behind", "the", "engine"];
 
-export default function About() {
+export default function Company() {
   return (
     <>
-      <Navbar pageTag="ABOUT" />
+      <Navbar pageTag="COMPANY" />
       <main className="about-page">
-        <section className="about-block bordered-block">
+        <section className="about-block bordered-block page-first-section section">
           <motion.h1
             className="about-hero-title"
             variants={wordReveal}
@@ -64,8 +64,8 @@ export default function About() {
               operators who understand the field.
             </motion.p>
             <motion.p variants={fadeUp}>
-              We are united by a shared curiosity — always building, always testing, and always
-              trying to find a better way to solve the problem.
+              We are united by a shared curiosity — always building, always testing, and always trying
+              to find a better way to solve the problem.
             </motion.p>
           </motion.div>
           <motion.p
@@ -101,7 +101,7 @@ export default function About() {
           </motion.div>
         </section>
 
-        <section className="about-block bordered-block">
+        <section className="about-block bordered-block section">
           <motion.h1
             variants={fadeUp}
             initial="hidden"
@@ -117,9 +117,8 @@ export default function About() {
             viewport={viewportOnce}
           >
             <motion.p variants={staggerItem}>
-              When we launched Apex, we began as an automation consultancy. We loved the craft. We
-              saw firsthand how powerful workflow automation was for firms trying to scale without
-              headcount.
+              When we launched Apex, we began as an automation consultancy. We loved the craft. We saw
+              firsthand how powerful workflow automation was for firms trying to scale without headcount.
             </motion.p>
             <motion.p variants={staggerItem}>
               But we also saw the gap. We realized that one-off automations were a game of hope. They
@@ -127,13 +126,13 @@ export default function About() {
               solutions; they needed an operating system.
             </motion.p>
             <motion.p variants={staggerItem}>
-              So we went into the lab. We spent years studying how the best firms in the world use
-              AI — not as a chatbot, but as infrastructure. That became Apex. That became Tower.
+              So we went into the lab. We spent years studying how the best firms in the world use AI —
+              not as a chatbot, but as infrastructure. That became Apex. That became Tower.
             </motion.p>
           </motion.div>
         </section>
 
-        <section className="orbital-section">
+        <section className="orbital-section section">
           <motion.div
             variants={slideInLeft}
             initial="hidden"
@@ -207,56 +206,11 @@ export default function About() {
                   transition={{ delay: 1.4 }}
                   viewport={viewportOnce}
                 />
-                <motion.text
-                  x={345}
-                  y={5}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: 1.4 }}
-                  viewport={viewportOnce}
-                >
-                  Capture
-                </motion.text>
-                <motion.circle
-                  cx={220}
-                  cy={95}
-                  r={6}
-                  fill="#fff"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: 1.6 }}
-                  viewport={viewportOnce}
-                />
-                <motion.text
-                  x={235}
-                  y={100}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: 1.6 }}
-                  viewport={viewportOnce}
-                >
-                  Amplify
-                </motion.text>
-                <motion.circle
-                  cx={135}
-                  cy={72}
-                  r={6}
-                  fill="#fff"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: 1.8 }}
-                  viewport={viewportOnce}
-                />
-                <motion.text
-                  x={150}
-                  y={77}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: 1.8 }}
-                  viewport={viewportOnce}
-                >
-                  Create
-                </motion.text>
+                <motion.text x={345} y={5} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: 1.4 }} viewport={viewportOnce}>Capture</motion.text>
+                <motion.circle cx={220} cy={95} r={6} fill="#fff" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: 1.6 }} viewport={viewportOnce} />
+                <motion.text x={235} y={100} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: 1.6 }} viewport={viewportOnce}>Amplify</motion.text>
+                <motion.circle cx={135} cy={72} r={6} fill="#fff" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: 1.8 }} viewport={viewportOnce} />
+                <motion.text x={150} y={77} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: 1.8 }} viewport={viewportOnce}>Create</motion.text>
               </g>
             </svg>
           </motion.div>

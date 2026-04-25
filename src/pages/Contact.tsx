@@ -14,7 +14,7 @@ export default function Contact() {
     <>
       <Navbar pageTag="CONTACT" />
       <main>
-        <section className="contact-hero">
+        <section className="contact-hero page-first-section section">
           <motion.div
             variants={contactTitleVariants}
             initial="hidden"
@@ -74,7 +74,7 @@ export default function Contact() {
           </motion.div>
         </section>
 
-        <section className="contact-form-wrap">
+        <section className="contact-form-wrap section">
           <motion.h2
             variants={fadeUp}
             initial="hidden"
@@ -109,7 +109,7 @@ export default function Contact() {
               MESSAGE
               <textarea placeholder="Tell us about your goals" />
             </motion.label>
-            <motion.div variants={scaleIn} transition={{ delay: 0.25 }}>
+            <motion.div className="contact-submit-wrap" variants={scaleIn} transition={{ delay: 0.25 }}>
               <ArrowButton variant="dark" label="SEND MESSAGE" size="lg" />
             </motion.div>
           </motion.form>

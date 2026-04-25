@@ -83,7 +83,7 @@ export default function Tower() {
           </div>
         </section>
 
-        <section className="tower-beyond-chat">
+        <section className="tower-beyond-chat section">
           <motion.h2
             className="tower-bc-line1"
             variants={fadeUp}
@@ -114,7 +114,7 @@ export default function Tower() {
           </motion.p>
         </section>
 
-        <section className="tower-tabs-section">
+        <section className="tower-tabs-section section">
           <motion.div
             variants={staggerContainer}
             initial="hidden"
@@ -168,7 +168,7 @@ export default function Tower() {
           </AnimatePresence>
         </section>
 
-        <section className="tower-solving">
+        <section className="tower-solving section">
           <motion.h2
             className="tower-solving-title"
             variants={wordReveal}
@@ -204,7 +204,7 @@ export default function Tower() {
           </motion.div>
         </section>
 
-        <section className="tower-industries">
+        <section className="tower-industries section">
           {/* USE EXISTING INDUSTRIES COMPONENT */}
           <p>Industries component — reuse from main site</p>
         </section>
