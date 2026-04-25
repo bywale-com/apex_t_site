@@ -1,0 +1,14 @@
+.track {
+  width: 100%;
+  height: 3px;
+  background: rgba(0, 51, 204, 0.15);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.fill {
+  width: 100%;
+  height: 100%;
+  background: #0033cc;
+  transform-origin: left center;
+}

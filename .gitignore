@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+vite.config.js
+vite.config.d.ts
+
+# Local / IDE
+.vite/
+*.local
+.env
+.env.*
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+npm-debug.log*
+*.tsbuildinfo

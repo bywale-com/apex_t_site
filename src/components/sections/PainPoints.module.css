@@ -1,0 +1,86 @@
+.section {
+  background: #fff;
+  min-height: 100vh;
+  padding: 120px 0;
+}
+
+.container {
+  width: min(1280px, calc(100% - 160px));
+  margin: 0 auto;
+  position: relative;
+  min-height: calc(100vh - 240px);
+  display: grid;
+  place-items: center;
+}
+
+.container h2 {
+  max-width: 700px;
+  font-size: 48px;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.wordOuter {
+  overflow: hidden;
+  display: inline-block;
+  margin-right: 0.28em;
+}
+
+.wordInner {
+  display: inline-block;
+}
+
+.desktopChip1,
+.desktopChip2,
+.desktopChip3 {
+  position: absolute;
+}
+
+.desktopChip1 {
+  top: 10%;
+  right: 5%;
+}
+
+.desktopChip2 {
+  top: 50%;
+  left: 5%;
+}
+
+.desktopChip3 {
+  bottom: 15%;
+  right: 15%;
+}
+
+.mobileStack {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding: 80px 0;
+  }
+
+  .container {
+    width: calc(100% - 48px);
+    min-height: auto;
+    display: block;
+  }
+
+  .desktopChip1,
+  .desktopChip2,
+  .desktopChip3 {
+    display: none;
+  }
+
+  .container h2 {
+    font-size: 28px;
+    margin: 24px 0;
+  }
+
+  .mobileStack {
+    display: grid;
+    gap: 14px;
+  }
+}

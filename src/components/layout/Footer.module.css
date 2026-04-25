@@ -1,0 +1,57 @@
+﻿.footer {
+  background: #1a1a1a;
+  padding: 64px 0;
+}
+
+.container {
+  width: min(1280px, calc(100% - 160px));
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 28px;
+}
+
+.label {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  margin: 0 0 16px;
+}
+
+.aboutText {
+  max-width: 300px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+.link {
+  color: #fff;
+  font-size: 16px;
+  margin: 0 0 10px;
+}
+
+.bottomLine {
+  margin-top: 38px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.copyright {
+  margin-top: 16px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    width: calc(100% - 48px);
+  }
+
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

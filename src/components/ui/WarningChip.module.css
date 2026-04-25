@@ -1,0 +1,26 @@
+﻿.chip {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 320px;
+}
+
+.icon {
+  color: #ffa500;
+  font-size: 20px;
+}
+
+.text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+}
+
+@media (max-width: 767px) {
+  .chip {
+    width: 100%;
+  }
+}

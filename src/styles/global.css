@@ -1,0 +1,45 @@
+﻿:root {
+  --white: #ffffff;
+  --cream: #f5f3f0;
+  --black: #1a1a1a;
+  --text-dark: #000000;
+  --text-muted: #808080;
+  --accent-blue: #d6e4ff;
+  --accent-blue-dark: #0033cc;
+  --warning-orange: #ffa500;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+body {
+  font-family: "Satoshi", sans-serif;
+  color: var(--text-dark);
+  background: var(--white);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.1;
+}
+
+p {
+  line-height: 1.6;
+}
