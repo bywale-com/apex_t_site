@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowButton } from "../components/ArrowButton";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -23,27 +23,6 @@ const CARD_COUNT = 5;
 
 export default function Home() {
   const [activeCard, setActiveCard] = useState(0);
-  const stripRef = useRef<HTMLDivElement | null>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const setCardRef = useCallback(
-    (el: HTMLDivElement | null, i: number) => {
-      cardRefs.current[i] = el;
-    },
-    [],
-  );
-
-  const scrollToActive = useCallback((index: number) => {
-    const el = cardRefs.current[index];
-    const strip = stripRef.current;
-    if (!el || !strip) return;
-
-    const targetLeft = el.offsetLeft - (strip.clientWidth - el.clientWidth) / 2;
-    strip.scrollTo({ left: Math.max(0, targetLeft), behavior: "smooth" });
-  }, []);
-
-  useEffect(() => {
-    scrollToActive(activeCard);
-  }, [activeCard, scrollToActive]);
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -180,23 +159,34 @@ export default function Home() {
             Our Software
           </motion.span>
           <div className="software-strip-block">
-            <div ref={stripRef} className="software-strip" role="list">
+            <div
+              style={{ width: "100%", overflow: "hidden", position: "relative" }}
+              role="presentation"
+            >
               <motion.div
-                className="software-strip-inner"
+                role="list"
                 variants={staggerContainer}
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewportOnce}
-                style={{ display: "flex", gap: 0 }}
+                style={{
+                  display: "flex",
+                  width: `${CARD_COUNT * 100}%`,
+                }}
+                animate={{ x: `${-(activeCard / CARD_COUNT) * 100}%` }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
                 <motion.div
-                  ref={(el) => setCardRef(el, 0)}
                   role="listitem"
                   variants={staggerItem}
                   whileHover={{ y: -4 }}
                   transition={{ duration: 0.25 }}
+                  style={{ width: `${100 / CARD_COUNT}%`, flexShrink: 0 }}
                 >
-                  <article className="software-card">
+                  <article
+                    className="software-card"
+                    style={{ width: "100%", minWidth: "100%", maxWidth: "100%" }}
+                  >
                     <aside>
                       <p>AI orchestration system for high-volume operational workflows.</p>
                       <span>/0.1</span>
@@ -208,16 +198,19 @@ export default function Home() {
                     </button>
                   </article>
                 </motion.div>
-                {([2, 3, 4, 5] as const).map((n, i) => (
+                {([2, 3, 4, 5] as const).map((n) => (
                   <motion.div
                     key={n}
-                    ref={(el) => setCardRef(el, i + 1)}
                     role="listitem"
                     variants={staggerItem}
                     whileHover={{ y: -4 }}
                     transition={{ duration: 0.25 }}
+                    style={{ width: `${100 / CARD_COUNT}%`, flexShrink: 0 }}
                   >
-                    <div className="product-card product-card--placeholder">
+                    <div
+                      className="product-card product-card--placeholder"
+                      style={{ width: "100%", minWidth: "100%", maxWidth: "100%" }}
+                    >
                       <div className="card-label">
                         <span className="card-desc">Coming soon</span>
                         <span className="card-index">{`/0.${n}`}</span>
