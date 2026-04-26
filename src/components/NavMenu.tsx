@@ -11,7 +11,7 @@ interface NavMenuProps {
 const primaryLinks = [
   { label: "Tower", to: "/products/tower" },
   { label: "Solutions", to: "/solutions" },
-  { label: "Case Studies", to: "/case-studies" },
+  { label: "Industries", to: "/industries" },
   { label: "Company", to: "/company" },
   { label: "News", to: "/news" },
 ] as const;
