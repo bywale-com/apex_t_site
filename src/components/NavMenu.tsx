@@ -1,6 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import apexLogoBlack from "../assets/logos/apex-logo-black.png";
+import apexLogoWhite from "../assets/logos/apex-logo-white.png";
+import { usePreloader } from "../context/PreloaderContext";
 import { ArrowButton } from "./ArrowButton";
+import TorontoClock from "./TorontoClock";
 import { staggerContainer, staggerItem } from "../lib/motion";
 
 interface NavMenuProps {
@@ -23,15 +27,17 @@ const utilityLinks = [
 ] as const;
 
 export default function NavMenu({ open, onClose }: NavMenuProps) {
+  const location = useLocation();
+  const { playPreloader } = usePreloader();
   return (
     <AnimatePresence>
       {open ? (
         <motion.div
           className="navmenu-shell"
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2 }}
         >
           <motion.div className="navmenu-backdrop" onClick={onClose} />
 
@@ -43,14 +49,21 @@ export default function NavMenu({ open, onClose }: NavMenuProps) {
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="navmenu-topbar">
-              <Link to="/" onClick={onClose} className="navbar-brand navmenu-brand">
-                <span className="logo-grid" aria-hidden="true">
-                  <i />
-                  <i />
-                  <i />
-                  <i />
-                </span>
-                <span>Apex</span>
+              <Link
+                to="/"
+                className="navbar-brand navmenu-brand"
+                aria-label="Apex home"
+                state={location.pathname === "/" ? undefined : { playPreloader: true }}
+                onClick={(e) => {
+                  onClose();
+                  if (location.pathname === "/") {
+                    e.preventDefault();
+                    playPreloader();
+                  }
+                }}
+              >
+                <img className="apex-logo-mark apex-logo-white" src={apexLogoWhite} alt="Apex" />
+                <img className="apex-logo-mark apex-logo-black" src={apexLogoBlack} alt="Apex" />
               </Link>
               <div className="navmenu-top-actions">
                 <ArrowButton label="Get in Touch" href="/contact" variant="dark" size="sm" />
@@ -81,7 +94,7 @@ export default function NavMenu({ open, onClose }: NavMenuProps) {
                   {item.label}
                 </Link>
               ))}
-              <div className="navmenu-lang">🌐 EN ▾</div>
+              <TorontoClock />
             </div>
           </motion.div>
 

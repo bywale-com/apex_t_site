@@ -1,32 +1,39 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLayoutEffect, useEffect, useRef, useState } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { fadeUp, staggerContainer, staggerItem, viewportOnce } from "../lib/motion";
+import specialty1Img from "../assets/stock/industries-specialty-1.jpg";
+import specialty2Img from "../assets/stock/industries-specialty-2.jpg";
+import specialty3Img from "../assets/stock/industries-specialty-3.jpg";
+import specialty4Img from "../assets/stock/industries-specialty-4.jpg";
+import specialty5Img from "../assets/stock/industries-specialty-5.jpg";
 
 const industries = [
   {
     id: "immigration",
     name: "Immigration Law",
-    body: "Immigration consulting firms run on precision and speed. Every missed call, delayed document, or slow follow-up is a client lost to the next firm. We automate the coordination layer so your consultants focus on cases, not logistics.",
+    body: "Immigration consulting firms run on precision and speed. Every missed call, delayed document, or slow follow-up is a client that calls the next firm. We automate the coordination layer - so your consultants spend their time on cases, not logistics.",
     bgGradient: "linear-gradient(135deg, #0a1628 0%, #1a2d1a 100%)",
   },
   {
     id: "finance",
     name: "Finance & Accounting",
-    body: "Finance firms carry high client volume with tight compliance requirements. Our workflows handle client onboarding, document collection, and status communication — reducing manual overhead without touching your core advisory work.",
+    body: "Finance firms carry high client volume against tight compliance requirements. Our workflows handle onboarding, document collection, and status communication - reducing manual overhead without changing how you advise.",
     bgGradient: "linear-gradient(135deg, #0d1117 0%, #1a1a2e 100%)",
   },
   {
     id: "insurance",
     name: "Insurance",
-    body: "Insurance brokerages live and die by response time. We build the intake and follow-up infrastructure that ensures every lead is contacted, every renewal is flagged, and every client feels handled — automatically.",
+    body: "Insurance brokerages live and die by response time. We build the infrastructure that ensures every lead is contacted, every renewal is flagged, and every client feels handled - without someone having to remember to do it.",
     bgGradient: "linear-gradient(135deg, #1a0a0a 0%, #2d1a0d 100%)",
   },
   {
     id: "consulting",
     name: "Consulting",
-    body: "Independent consultants and small consulting firms are often the last to adopt operational infrastructure. We change that — giving boutique consulting practices the same automation leverage as firms ten times their size.",
+    body: "Independent consultants are the last to get operational infrastructure - and the first to feel the cost of not having it. We give boutique practices the same automation leverage as firms ten times their size.",
     bgGradient: "linear-gradient(135deg, #0a0a1a 0%, #1a0d2d 100%)",
   },
 ] as const;
@@ -36,121 +43,157 @@ const specialties = [
     id: 0,
     name: "Workflow Orchestration",
     num: "01",
-    image: null,
+    image: specialty1Img,
     imageBg: "#1a1a2e",
   },
   {
     id: 1,
     name: "Intake Automation",
     num: "02",
-    image: null,
+    image: specialty2Img,
     imageBg: "#0d1a0d",
   },
   {
     id: 2,
     name: "Document Management",
     num: "03",
-    image: null,
+    image: specialty3Img,
     imageBg: "#2e1a0d",
   },
   {
     id: 3,
     name: "Client Communication",
     num: "04",
-    image: null,
+    image: specialty4Img,
     imageBg: "#1a0d2e",
   },
   {
     id: 4,
     name: "Reporting & Analytics",
     num: "05",
-    image: null,
+    image: specialty5Img,
     imageBg: "#0d1a2e",
   },
 ] as const;
 
 const staticBody =
-  "We build the operational infrastructure that professional service firms rely on. From the first client inquiry to case close, every touchpoint is handled, logged, and optimized — without adding headcount.";
+  "We go into a firm's operations and find where time is being traded for tasks that shouldn't require human judgment. Then we build systems that handle those tasks automatically - so the humans can do the work only humans can do.";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Industries() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeSpecialty, setActiveSpecialty] = useState(0);
-  const industriesHeroRef = useRef<HTMLDivElement>(null);
+  const heroScrollWrapRef = useRef<HTMLDivElement>(null);
   const activeIndexRef = useRef(0);
-  const touchStartX = useRef(0);
-
-  activeIndexRef.current = activeIndex;
+  const heroScrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
   useEffect(() => {
-    const el = industriesHeroRef.current;
-    if (!el) return;
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
-    const handleWheel = (e: WheelEvent) => {
-      const p = activeIndexRef.current;
-      if (e.deltaY > 0 && p < industries.length - 1) {
-        e.preventDefault();
-        setActiveIndex(p + 1);
-      } else if (e.deltaY < 0 && p > 0) {
-        e.preventDefault();
-        setActiveIndex(p - 1);
-      }
+  // Scroll length = outer `minHeight`; hero is `position: fixed` in CSS (body `overflow-x: hidden` breaks `sticky`).
+  // ScrollTrigger maps scroll progress → active industry.
+  useLayoutEffect(() => {
+    const wrap = heroScrollWrapRef.current;
+    if (!wrap) return;
+
+    ScrollTrigger.getById("industries-hero-st")?.kill();
+
+    const ctx = gsap.context(() => {
+      const totalIndustries = industries.length;
+
+      const st = ScrollTrigger.create({
+        id: "industries-hero-st",
+        trigger: wrap,
+        start: "top top",
+        end: "bottom bottom",
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const newIndex = Math.min(
+            Math.floor(self.progress * totalIndustries),
+            totalIndustries - 1,
+          );
+          if (newIndex !== activeIndexRef.current) {
+            activeIndexRef.current = newIndex;
+            setActiveIndex(newIndex);
+          }
+        },
+      });
+      heroScrollTriggerRef.current = st;
+    }, wrap);
+
+    const refresh = () => {
+      requestAnimationFrame(() => ScrollTrigger.refresh());
     };
+    refresh();
+    window.addEventListener("load", refresh);
+    const ro = new ResizeObserver(refresh);
+    ro.observe(wrap);
 
-    el.addEventListener("wheel", handleWheel, { passive: false });
     return () => {
-      el.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("load", refresh);
+      ro.disconnect();
+      heroScrollTriggerRef.current = null;
+      ctx.revert();
     };
   }, []);
 
-  const onTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
+  useEffect(() => {
+    const onResize = () => ScrollTrigger.refresh();
+    window.addEventListener("resize", onResize);
+    window.addEventListener("orientationchange", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("orientationchange", onResize);
+    };
+  }, []);
 
-  const onTouchEnd = (e: React.TouchEvent) => {
-    const delta = touchStartX.current - e.changedTouches[0].clientX;
-    if (delta > 50 && activeIndex < industries.length - 1) {
-      setActiveIndex((p) => p + 1);
+  const scrollHeroToIndustry = (index: number) => {
+    const st = heroScrollTriggerRef.current;
+    const total = industries.length;
+    if (!st || total <= 1) {
+      setActiveIndex(index);
+      activeIndexRef.current = index;
+      return;
     }
-    if (delta < -50 && activeIndex > 0) {
-      setActiveIndex((p) => p - 1);
-    }
+    const progress = (index + 0.5) / total;
+    const y = st.start + (st.end - st.start) * progress;
+    window.scrollTo({ top: y, behavior: "smooth" });
   };
 
   return (
     <>
       <Navbar />
       <div
-        ref={industriesHeroRef}
-        className="industries-hero"
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
+        ref={heroScrollWrapRef}
+        className="industries-hero-sticky-outer"
+        style={{ minHeight: `${industries.length * 100}vh` }}
+      >
+      <div
+        className="industries-hero industries-hero--sticky"
         role="region"
         aria-label="Industries we serve"
       >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeIndex}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.7, ease: "easeInOut" }}
-            className="industries-hero-bg"
-            style={{ background: industries[activeIndex].bgGradient }}
-          />
-        </AnimatePresence>
+        {/* Solid layer + direct style (no exit/enter gap) — AnimatePresence+wait left the body visible = white flash */}
+        <div
+          className="industries-hero-bg"
+          style={{ background: industries[activeIndex].bgGradient }}
+          aria-hidden
+        />
         <div className="industries-hero-dim" aria-hidden />
 
         <div className="industries-hero-content">
           <div className="industries-name-row">
             <div className="industries-name-active-wrap">
-              <AnimatePresence mode="wait">
+              <AnimatePresence mode="wait" initial={false}>
                 <motion.h2
                   key={industries[activeIndex].id}
                   className="industries-h2"
-                  initial={{ opacity: 0, y: 24 }}
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -24 }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 >
                   {industries[activeIndex].name}
                 </motion.h2>
@@ -164,14 +207,14 @@ export default function Industries() {
           </div>
 
           <div className="industries-body-wrap">
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" initial={false}>
               <motion.p
                 key={industries[activeIndex].id}
                 className="industries-body-text"
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -24 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               >
                 {industries[activeIndex].body}
               </motion.p>
@@ -187,111 +230,114 @@ export default function Industries() {
                 aria-label={ind.name}
                 aria-selected={i === activeIndex}
                 className={`industries-dot${i === activeIndex ? " industries-dot--active" : ""}`}
-                onClick={() => setActiveIndex(i)}
+                onClick={() => scrollHeroToIndustry(i)}
               />
             ))}
           </div>
         </div>
       </div>
+      </div>
 
-      <motion.section
-        className="industries-specialties"
-        variants={fadeUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewportOnce}
-      >
-        <motion.div
-          className="industries-specialty-inner"
-          variants={staggerContainer}
+      <div className="industries-below-hero">
+        <motion.section
+          className="industries-specialties"
+          variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
         >
           <motion.div
-            className="industries-specialty-names"
-            variants={staggerItem}
-            style={{ lineHeight: 1.2 }}
+            className="industries-specialty-inner"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
           >
-            {specialties.map((s, i) => (
-              <span key={s.id}>
-                <motion.span
-                  onHoverStart={() => setActiveSpecialty(s.id)}
-                  onClick={() => setActiveSpecialty(s.id)}
-                  animate={{ color: activeSpecialty === s.id ? "#000000" : "#CCCCCC" }}
-                  transition={{ duration: 0.2 }}
-                  style={{
-                    fontFamily: "var(--font-primary)",
-                    fontSize: "clamp(28px, 4vw, 52px)",
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    display: "inline",
-                  }}
-                >
-                  {s.name}
-                  <sup
+            <motion.div
+              className="industries-specialty-names"
+              variants={staggerItem}
+              style={{ lineHeight: 1.2 }}
+            >
+              {specialties.map((s, i) => (
+                <span key={s.id}>
+                  <motion.span
+                    onHoverStart={() => setActiveSpecialty(s.id)}
+                    onClick={() => setActiveSpecialty(s.id)}
+                    animate={{ color: activeSpecialty === s.id ? "#000000" : "#CCCCCC" }}
+                    transition={{ duration: 0.2 }}
                     style={{
-                      fontSize: "0.4em",
-                      fontWeight: 400,
-                      verticalAlign: "super",
-                      color: activeSpecialty === s.id ? "#000000" : "#CCCCCC",
-                    }}
-                  >
-                    ({s.num})
-                  </sup>
-                </motion.span>
-                {i < specialties.length - 1 ? (
-                  <span
-                    style={{
-                      color: "#CCCCCC",
+                      fontFamily: "var(--font-primary)",
                       fontSize: "clamp(28px, 4vw, 52px)",
                       fontWeight: 700,
+                      cursor: "pointer",
+                      display: "inline",
                     }}
                   >
-                    {" "}
-                    /{" "}
-                  </span>
-                ) : null}
-              </span>
-            ))}
-          </motion.div>
+                    {s.name}
+                    <sup
+                      style={{
+                        fontSize: "0.4em",
+                        fontWeight: 400,
+                        verticalAlign: "super",
+                        color: activeSpecialty === s.id ? "#000000" : "#CCCCCC",
+                      }}
+                    >
+                      ({s.num})
+                    </sup>
+                  </motion.span>
+                  {i < specialties.length - 1 ? (
+                    <span
+                      style={{
+                        color: "#CCCCCC",
+                        fontSize: "clamp(28px, 4vw, 52px)",
+                        fontWeight: 700,
+                      }}
+                    >
+                      {" "}
+                      /{" "}
+                    </span>
+                  ) : null}
+                </span>
+              ))}
+            </motion.div>
 
-          <motion.div className="industries-specialty-image-wrap" variants={staggerItem}>
-            <div className="industries-specialty-image-box">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeSpecialty}
-                  initial={{ opacity: 0, scale: 1.04 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="industries-specialty-image-placeholder"
-                  style={{
-                    // TODO: replace with real image
+            <motion.div className="industries-specialty-image-wrap" variants={staggerItem}>
+              <div className="industries-specialty-image-box">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeSpecialty}
+                    initial={{ opacity: 0, scale: 1.04 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                    className="industries-specialty-image-placeholder"
+                    style={{
                     background: specialties[activeSpecialty].imageBg,
-                  }}
-                />
-              </AnimatePresence>
-            </div>
-          </motion.div>
+                    backgroundImage: `url(${specialties[activeSpecialty].image})`,
+                    }}
+                  />
+                </AnimatePresence>
+              </div>
+            </motion.div>
 
-          <motion.p
-            className="industries-specialty-static"
-            variants={staggerItem}
-            style={{
-              fontFamily: "var(--font-primary)",
-              fontSize: 16,
-              color: "#555555",
-              lineHeight: 1.7,
-              maxWidth: 520,
-              paddingTop: 24,
-            }}
-          >
-            {staticBody}
-          </motion.p>
-        </motion.div>
-      </motion.section>
-      <Footer />
+            <motion.p
+              className="industries-specialty-static"
+              variants={staggerItem}
+              style={{
+                fontFamily: "var(--font-primary)",
+                fontSize: 16,
+                color: "#555555",
+                lineHeight: 1.7,
+                maxWidth: 520,
+                paddingTop: 24,
+              }}
+            >
+              {staticBody}
+            </motion.p>
+          </motion.div>
+        </motion.section>
+        <Footer />
+      </div>
     </>
   );
 }

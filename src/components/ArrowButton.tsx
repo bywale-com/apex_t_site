@@ -8,6 +8,8 @@ export interface ArrowButtonProps {
   variant: "dark" | "light" | "blue" | "outlined";
   size?: "sm" | "md" | "lg";
   prefix?: string;
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 }
 
 const parentVariants = {
@@ -27,6 +29,8 @@ export function ArrowButton({
   variant,
   size = "md",
   prefix,
+  type = "button",
+  disabled = false,
 }: ArrowButtonProps) {
   const className = `arrow-btn arrow-btn-${variant} arrow-btn-${size}`;
   const content = (
@@ -65,9 +69,10 @@ export function ArrowButton({
 
   return (
     <motion.button
-      type="button"
+      type={type}
       className={className}
       onClick={onClick}
+      disabled={disabled}
       variants={parentVariants}
       initial="rest"
       whileHover="hover"

@@ -14,11 +14,19 @@ import {
 } from "../lib/motion";
 
 const PEOPLE_TITLE = ["The", "people", "behind", "the", "engine"];
+const TEAM_IMAGES = [
+  "/images/company_photos_1.jpg",
+  "/images/company_photos_2.jpg",
+  "/images/company_photos_3.jpg",
+  "/images/company_photos_4.jpg",
+  "/images/company_photos_5.jpg",
+  "/images/company_photos_6.jpg",
+] as const;
 
 export default function Company() {
   return (
     <>
-      <Navbar pageTag="COMPANY" />
+      <Navbar />
       <main className="about-page">
         <section className="about-block bordered-block page-first-section section">
           <motion.h1
@@ -59,13 +67,13 @@ export default function Company() {
             viewport={viewportOnce}
           >
             <motion.p variants={fadeUp}>
-              It takes a diverse crew to build a system this robust. We are a mix of Automation
-              Architects who understand workflow, AI Engineers who understand models, and Go-to-Market
-              operators who understand the field.
+              It takes a specific kind of crew to do this work well. We are a mix of process analysts
+              who understand how firms actually operate, engineers who understand how to automate without
+              breaking things, and operators who have sat in the seat of the people we build for.
             </motion.p>
             <motion.p variants={fadeUp}>
-              We are united by a shared curiosity — always building, always testing, and always trying
-              to find a better way to solve the problem.
+              We are united by one conviction: that the firms doing the most important work should not
+              be the ones drowning in the most administrative overhead.
             </motion.p>
           </motion.div>
           <motion.p
@@ -76,8 +84,8 @@ export default function Company() {
             viewport={viewportOnce}
             transition={{ delay: 0.3 }}
           >
-            We believe in open-source thinking. <em>Connect</em> with us to see what we are building
-            and learning in real-time.
+            We think out loud. <em>Connect</em> with us to see what we are building, what is working,
+            and what we are still figuring out.
           </motion.p>
           <motion.div
             className="team-strip"
@@ -88,14 +96,20 @@ export default function Company() {
             viewport={viewportOnce}
             style={{ display: "flex" }}
           >
-            {Array.from({ length: 6 }).map((_, idx) => (
+            {TEAM_IMAGES.map((img, idx) => (
               <motion.div
                 key={idx}
                 role="listitem"
                 variants={staggerItem}
                 transition={{ delay: idx * 0.1 }}
                 whileHover={{ scale: 1.04 }}
-                style={{ minWidth: 240, height: 340, background: "#222" }}
+                style={{
+                  minWidth: 240,
+                  height: 340,
+                  backgroundImage: `url(${img})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
               />
             ))}
           </motion.div>
@@ -117,17 +131,21 @@ export default function Company() {
             viewport={viewportOnce}
           >
             <motion.p variants={staggerItem}>
-              When we launched Apex, we began as an automation consultancy. We loved the craft. We saw
-              firsthand how powerful workflow automation was for firms trying to scale without headcount.
+              Apex started as a question: why do the most skilled professionals spend so much of their
+              time on work that does not require their skill? We started working inside professional
+              service firms and the answer was always the same - the process had not been designed, it
+              had just accumulated.
             </motion.p>
             <motion.p variants={staggerItem}>
-              But we also saw the gap. We realized that one-off automations were a game of hope. They
-              solve today's problem but do not build a foundation. Our clients needed more than point
-              solutions; they needed an operating system.
+              Point automations helped. But they kept breaking, kept needing maintenance, and kept
+              solving yesterday's version of the problem. What firms actually needed was not a tool. It
+              was an operating model - something that could absorb new complexity without requiring a
+              rebuild every six months.
             </motion.p>
             <motion.p variants={staggerItem}>
-              So we went into the lab. We spent years studying how the best firms in the world use AI —
-              not as a chatbot, but as infrastructure. That became Apex. That became Tower.
+              So we started building the infrastructure layer instead. Systems that do not just automate
+              tasks but orchestrate entire workflows - intake to close, inquiry to decision, question to
+              answer. That is what Apex is. That is what Tower is the first product of.
             </motion.p>
           </motion.div>
         </section>
@@ -140,7 +158,7 @@ export default function Company() {
             viewport={viewportOnce}
             className="orbital-cta-wrap"
           >
-            <ArrowButton variant="blue" label="Discover our solutions" prefix="+" />
+            <ArrowButton variant="blue" label="Discover our solutions" prefix="+" href="/contact" />
           </motion.div>
           {/* TODO: Replace with final brand SVG */}
           <motion.div

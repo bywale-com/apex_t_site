@@ -1,15 +1,18 @@
 import { ArrowButton } from "./ArrowButton";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { usePreloader } from "../context/PreloaderContext";
 
 export default function Footer() {
+  const location = useLocation();
+  const { playPreloader } = usePreloader();
   return (
     <footer className="site-footer">
       <div className="footer-cta-grid">
         <div>
-          <h2>Shockingly good AI starts here.</h2>
+          <h2>The firms that move faster, win.</h2>
           <p>
-            Our experts are always happy to discuss your opportunities. Reach out, and we will
-            connect you with a member of our team.
+            We work with professional service firms to identify where process friction is costing
+            them - and build the infrastructure to fix it. Start with a conversation.
           </p>
         </div>
         <div className="footer-cta-action">
@@ -23,8 +26,9 @@ export default function Footer() {
         <div>
           <p className="footer-label">ABOUT APEX</p>
           <p className="footer-copy">
-            Apex builds AI orchestration systems for enterprise workflows. We design, build, and
-            operate intelligent automation for organizations across industries.
+            Apex is a workflow orchestration and automation studio. We study how professional
+            service firms operate, identify where friction lives, and build systems that eliminate
+            it - permanently.
           </p>
           <p className="footer-label">EMAIL</p>
           <a href="mailto:info@apexsystems.ai">info@apexsystems.ai</a>
@@ -38,7 +42,18 @@ export default function Footer() {
 
         <div>
           <p className="footer-label">NAVIGATION</p>
-          <Link to="/">Home</Link>
+          <Link
+            to="/"
+            state={location.pathname === "/" ? undefined : { playPreloader: true }}
+            onClick={(e) => {
+              if (location.pathname === "/") {
+                e.preventDefault();
+                playPreloader();
+              }
+            }}
+          >
+            Home
+          </Link>
           <Link to="/products/tower">Tower</Link>
           <Link to="/products/tower">Solutions</Link>
           <Link to="/industries">Industries</Link>
